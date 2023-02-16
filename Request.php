@@ -46,7 +46,11 @@ class Request
 
   public static function handle(string $uri, array &$get, array &$post): void
   {
-    $uri = self::get_uri_array($uri);
+    if(isset($get['_']))
+      $uri = explode('/', $get['_']);
+    else
+      $uri = self::get_uri_array($uri);
+
     if(!$uri)
     {
       http_response_code(404);
@@ -62,7 +66,7 @@ class Request
         echo "<li>slbans/list/deleted - GET - returns a comma separated plaintext list of formerly banned UUIDs.</li>";
         echo "<li>slbans/add - POST uuid=X reason=Y - add a text UUID to the ban list.</li>";
         echo "<li>slbans/delete - POST uuid=X - delete a text UUID from the ban list.</li>";
-        echo "</ul></body></html>";
+        echo "</ul></body></html>\n";
         return;
       }
 

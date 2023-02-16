@@ -65,7 +65,7 @@ CREATE TABLE `state` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cleanup`()
+CREATE PROCEDURE `cleanup`()
 begin   delete from state where expires <= now(); end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -82,7 +82,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `resetList`(IN ttlminutes INT(11))
+CREATE PROCEDURE `resetList`(IN ttlminutes INT(11))
 begin   insert into state(setting, value, expires) values("reset_list", 1, timestampadd(minute, ttlminutes, now())) on duplicate key update value=values(value), expires=values(expires); end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
